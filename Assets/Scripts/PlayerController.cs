@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] float torqueAmount = 2.5f;
+    float torqueAmount = 2.1f;
     Rigidbody2D rg2d;
+    bool hasDied = false;
+
     void Start()
     { 
         rg2d = GetComponent<Rigidbody2D>();       
@@ -13,9 +15,21 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKey(KeyCode.Q)) 
+        if (hasDied)
+            return;
+        RotatePlayer();
+    }
+
+    public void DisableControls()
+    {
+        hasDied = true;
+    }
+
+    void RotatePlayer()
+    {
+        if (Input.GetKey(KeyCode.Q))
             rg2d.AddTorque(torqueAmount);
-        if (Input.GetKey(KeyCode.E)) 
+        else if (Input.GetKey(KeyCode.E))
             rg2d.AddTorque(-torqueAmount);
     }
 }
